@@ -1,0 +1,27 @@
+name: Build and Test Workflow
+
+on: [push,pull_request]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout code
+      uses: actions/checkout@v3
+
+    - name: set up python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    - name: install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: run Build
+      run: |
+        python setup.py build
+
+    - name: Run Tests
+      run: |
+        pytest tests/
